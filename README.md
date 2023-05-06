@@ -1,2 +1,1 @@
-# daymocracy
-Daymocracy website
+# Daymocracy
