@@ -1,7 +1,7 @@
-import { Inter } from 'next/font/google'
+import { Rubik } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const rubikFont = Rubik({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Daymocracy',
@@ -15,7 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`container mx-auto min-h-screen bg-indigo-950 p-10 text-indigo-100 lg:p-24 ${rubikFont.className}`}
+      >
+        {children}
+      </body>
     </html>
   )
 }
