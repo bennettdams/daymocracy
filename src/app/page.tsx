@@ -1,9 +1,11 @@
 import { Title } from '@/components/Title'
+import { getStartOfTomorrowUTC } from '@/lib/server-utils'
 import Image from 'next/image'
 import handImage from '../../public/assets/hand.png'
-import { Clock as Timer } from './Timer'
+import { Timer } from './Timer'
 
 export default function Home(): JSX.Element {
+  const startOfTomorrowUTC = getStartOfTomorrowUTC()
   return (
     // `relative` is need because `GoVote` is positioned absolute
     <main className="relative">
@@ -16,7 +18,7 @@ export default function Home(): JSX.Element {
       </div>
 
       <div className="mt-10 lg:mt-20">
-        <TimeLeft />
+        <TimeLeft startOfTomorrowUTC={startOfTomorrowUTC} />
       </div>
 
       <div className="mt-10 lg:mt-20">
@@ -119,12 +121,16 @@ function GoVote(): JSX.Element {
   )
 }
 
-function TimeLeft(): JSX.Element {
+function TimeLeft({
+  startOfTomorrowUTC,
+}: {
+  startOfTomorrowUTC: Date
+}): JSX.Element {
   return (
     <div>
       <Title>time left</Title>
 
-      <Timer />
+      <Timer startOfTomorrowUTC={startOfTomorrowUTC} />
     </div>
   )
 }

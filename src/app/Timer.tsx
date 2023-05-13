@@ -3,10 +3,13 @@
 import differenceInHours from 'date-fns/differenceInHours'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
 import differenceInSeconds from 'date-fns/differenceInSeconds'
-import startOfTomorrow from 'date-fns/startOfTomorrow'
 import { useEffect, useState } from 'react'
 
-export function Clock(): JSX.Element {
+export function Timer({
+  startOfTomorrowUTC,
+}: {
+  startOfTomorrowUTC: Date
+}): JSX.Element {
   /** Initialized with null to prevent hydration errors. */
   const [now, setNow] = useState<Date | null>(null)
 
@@ -17,24 +20,45 @@ export function Clock(): JSX.Element {
 
     if (!now) tick()
 
-    let id = setInterval(tick, 1_000)
+    const intervalId = setInterval(tick, 1_000)
 
-    return () => clearInterval(id)
+    return () => clearInterval(intervalId)
   }, [])
 
-  return !now ? <></> : <Diff now={now} />
+  return !now ? (
+    <></>
+  ) : (
+    <Diff now={now} startOfTomorrowUTC={startOfTomorrowUTC} />
+  )
 }
 
-function Diff({ now }: { now: Date }): JSX.Element {
-  const tomorrow = startOfTomorrow()
+function Diff({
+  now,
+  startOfTomorrowUTC,
+}: {
+  now: Date
+  startOfTomorrowUTC: Date
+}): JSX.Element {
+  const hoursLeft = differenceInHours(startOfTomorrowUTC, now)
+  const minutesLeft = differenceInMinutes(startOfTomorrowUTC, now) % 60
+  const secondsLeft = differenceInSeconds(startOfTomorrowUTC, now) % 60
 
   return (
-    <div>
-      <p>Tomo: {tomorrow.toISOString()}</p>
-      <p>Now: {now.toISOString()}</p>
-      <p>Hours: {differenceInHours(tomorrow, now)}</p>
-      <p>Minutes: {differenceInMinutes(tomorrow, now) % 60}</p>
-      <p>Seconds: {differenceInSeconds(tomorrow, now) % 60}</p>
+    <div className="flex py-10 text-center">
+      <div className="flex flex-1 flex-col">
+        <p className="text-5xl">{hoursLeft}</p>
+        <p className="text-xl uppercase">hours</p>
+      </div>
+
+      <div className="flex flex-1 flex-col">
+        <p className="text-5xl">{minutesLeft}</p>
+        <p className="text-xl uppercase">minutes</p>
+      </div>
+
+      <div className="flex flex-1 flex-col">
+        <p className="text-5xl">{secondsLeft}</p>
+        <p className="text-xl uppercase">seconds</p>
+      </div>
     </div>
   )
 }
