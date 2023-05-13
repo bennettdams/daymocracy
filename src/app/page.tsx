@@ -3,9 +3,11 @@ import { getStartOfTomorrowUTC } from '@/lib/server-utils'
 import Image from 'next/image'
 import handImage from '../../public/assets/hand.png'
 import { Timer } from './Timer'
+import { Poll } from './poll'
 
 export default function Home(): JSX.Element {
   const startOfTomorrowUTC = getStartOfTomorrowUTC()
+
   return (
     // `relative` is need because `GoVote` is positioned absolute
     <main className="relative">
@@ -26,84 +28,9 @@ export default function Home(): JSX.Element {
       </div>
 
       <div className="mt-10 lg:mt-20">
-        <Title>Previous posts</Title>
+        <Title>Previous polls</Title>
       </div>
     </main>
-  )
-}
-
-function PollOption(): JSX.Element {
-  return (
-    <div className="pg:p-10 flex-1 rounded-lg bg-indigo-100 p-6 text-center text-indigo-800">
-      <Title>Option 1</Title>
-
-      <div>This is a description that further explains the option</div>
-
-      <div className="grid w-full place-items-center bg-red-200">
-        <div className="h-44 w-44 bg-blue-200">image</div>
-      </div>
-    </div>
-  )
-}
-
-function PollOptions(): JSX.Element {
-  return (
-    <div className="flex w-full flex-col lg:flex-row">
-      <PollOption />
-
-      <p className="mx-10 grid place-items-center font-serif text-6xl">vs.</p>
-
-      <PollOption />
-    </div>
-  )
-}
-
-function Poll({
-  votesOption1,
-  votesOption2,
-}: {
-  votesOption1: number
-  votesOption2: number
-}): JSX.Element {
-  const allVotes = votesOption1 + votesOption2
-
-  // option 1's percentage of all votes
-  const option1RatioPercentage = Math.round((votesOption1 / allVotes) * 100)
-  const option2RatioPercentage = 100 - option1RatioPercentage
-
-  return (
-    <div className="flex w-full flex-col text-center">
-      <div className="flex flex-row">
-        <div className="mx-20 flex flex-1 flex-col">
-          <p className="text-4xl">{votesOption1}</p>
-          <p className="text-lg uppercase">votes</p>
-        </div>
-
-        <div className="flex w-full flex-row bg-gray-500">
-          <div
-            className="h-full bg-orange-500"
-            style={{ width: `${option1RatioPercentage}%` }}
-          >
-            &nbsp;
-          </div>
-          <div
-            className="h-full bg-green-300"
-            style={{ width: `${option2RatioPercentage}%` }}
-          >
-            &nbsp;
-          </div>
-        </div>
-
-        <div className="mx-20 flex flex-1 flex-col">
-          <p className="text-4xl">{votesOption2}</p>
-          <p className="text-lg uppercase">votes</p>
-        </div>
-      </div>
-
-      <div className="mt-12">
-        <PollOptions />
-      </div>
-    </div>
   )
 }
 
@@ -127,7 +54,8 @@ function TimeLeft({
   startOfTomorrowUTC: Date
 }): JSX.Element {
   return (
-    <div>
+    // The height here matches needs to be aligned with the implicit height of a title and the timer text.
+    <div className="h-40">
       <Title>time left</Title>
 
       <Timer startOfTomorrowUTC={startOfTomorrowUTC} />
