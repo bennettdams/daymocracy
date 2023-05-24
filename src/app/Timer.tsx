@@ -25,38 +25,38 @@ export function Timer({
     return () => clearInterval(intervalId)
   }, [])
 
-  return !now ? (
-    <></>
-  ) : (
-    <Diff now={now} startOfTomorrowUTC={startOfTomorrowUTC} />
-  )
+  return <Diff now={now} startOfTomorrowUTC={startOfTomorrowUTC} />
 }
 
 function Diff({
   now,
   startOfTomorrowUTC,
 }: {
-  now: Date
+  now: Date | null
   startOfTomorrowUTC: Date
 }): JSX.Element {
-  const hoursLeft = differenceInHours(startOfTomorrowUTC, now)
-  const minutesLeft = differenceInMinutes(startOfTomorrowUTC, now) % 60
-  const secondsLeft = differenceInSeconds(startOfTomorrowUTC, now) % 60
+  const hoursLeft = !now ? null : differenceInHours(startOfTomorrowUTC, now)
+  const minutesLeft = !now
+    ? null
+    : differenceInMinutes(startOfTomorrowUTC, now) % 60
+  const secondsLeft = !now
+    ? null
+    : differenceInSeconds(startOfTomorrowUTC, now) % 60
 
   return (
     <div className="flex py-10 text-center">
       <div className="flex flex-1 flex-col">
-        <p className="text-5xl">{hoursLeft}</p>
+        <p className="text-5xl">{hoursLeft ?? <>&nbsp;</>}</p>
         <p className="text-xl uppercase">hours</p>
       </div>
 
       <div className="flex flex-1 flex-col">
-        <p className="text-5xl">{minutesLeft}</p>
+        <p className="text-5xl">{minutesLeft ?? <>&nbsp;</>}</p>
         <p className="text-xl uppercase">minutes</p>
       </div>
 
       <div className="flex flex-1 flex-col">
-        <p className="text-5xl">{secondsLeft}</p>
+        <p className="text-5xl">{secondsLeft ?? <>&nbsp;</>}</p>
         <p className="text-xl uppercase">seconds</p>
       </div>
     </div>
