@@ -1,6 +1,7 @@
 import { Title } from '@/components/Title'
 import { getStartOfTomorrowUTC } from '@/lib/server-utils'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import handImage from '../../public/assets/hand.png'
 import { Timer } from './Timer'
 import { Poll } from './poll'
@@ -24,7 +25,9 @@ export default function Home(): JSX.Element {
       </div>
 
       <div className="mt-10 lg:mt-20">
-        <Poll votesOption1={1} votesOption2={2} />
+        <Suspense fallback={<p>Loading poll...</p>}>
+          <Poll />
+        </Suspense>
       </div>
 
       <div className="mt-10 lg:mt-20">
