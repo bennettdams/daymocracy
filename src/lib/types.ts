@@ -1,6 +1,6 @@
-const OPTION_IDS = ['option1', 'option2'] as const
-export type OptionId = (typeof OPTION_IDS)[number]
+const OPTION_VARIANTS = ['option1', 'option2'] as const
+export type OptionVariant = (typeof OPTION_VARIANTS)[number]
 
-export function isOptionId(optionId: string): optionId is OptionId {
-  return OPTION_IDS.includes(optionId as OptionId)
+export function isOptionVariant(optionId: string): optionId is OptionVariant {
+  return OPTION_VARIANTS.includes(optionId as OptionVariant)
 }

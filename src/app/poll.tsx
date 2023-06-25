@@ -53,44 +53,20 @@ function PollOptions({
   return (
     <div className="flex w-full flex-col lg:flex-row">
       <PollOption
+        variant="option1"
         title={option1.title}
         description={option1.description}
-        variant="option1"
+        votes={option1.votes}
       />
 
       <p className="mx-10 grid place-items-center font-serif text-6xl">vs.</p>
 
       <PollOption
+        variant="option2"
         title={option2.title}
         description={option2.description}
-        variant="option2"
+        votes={option2.votes}
       />
-    </div>
-  )
-}
-
-function PollOption({
-  title,
-  description,
-  variant,
-}: {
-  title: string
-  description: string
-  variant: 'option1' | 'option2'
-}): JSX.Element {
-  return (
-    <div
-      className={`pg:p-10 flex-1 space-y-4 rounded-lg bg-indigo-100 p-6 text-center ${
-        variant === 'option1' ? 'text-teal-500' : 'text-rose-500'
-      }`}
-    >
-      <Title>{title}</Title>
-
-      <div>{description}</div>
-
-      <div className="grid w-full place-items-center bg-red-200">
-        <div className="h-44 w-44 bg-blue-200">image</div>
-      </div>
     </div>
   )
 }
@@ -100,7 +76,7 @@ function OptionVotes({
   variant,
 }: {
   votes: number
-  variant: 'option1' | 'option2'
+  variant: OptionId
 }): JSX.Element {
   return (
     <div className="flex basis-52 flex-col">

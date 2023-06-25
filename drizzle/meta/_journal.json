@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1687649013483,
+      "tag": "0000_rich_zarek",
+      "breakpoints": true
+    }
+  ]
+}
