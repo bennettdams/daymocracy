@@ -3,8 +3,8 @@ import { getStartOfTomorrowUTC } from '@/lib/server-utils'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import handImage from '../../public/assets/hand.png'
-import { Timer } from './Timer'
-import { Poll } from './poll'
+import { Timer } from './_components/Timer'
+import { Poll } from './_components/poll'
 
 export default function Home(): JSX.Element {
   const startOfTomorrowUTC = getStartOfTomorrowUTC()

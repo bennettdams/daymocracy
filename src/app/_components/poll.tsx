@@ -1,7 +1,7 @@
 import { db } from '@/db/db'
 import { Option } from '@/db/schema'
 import { OptionVariant } from '@/lib/types'
-import { PollOption } from './_components/PollOption'
+import { PollOption } from './PollOption'
 
 export async function Poll() {
   const options = await db.getCurrentPoll()

@@ -9,6 +9,8 @@ const sqlite = new Database('./src/db/sqlite.db')
 const dbInternal: BetterSQLite3Database = drizzle(sqlite)
 migrate(dbInternal, { migrationsFolder: 'drizzle' })
 
+export type CurrentPoll = Awaited<ReturnType<typeof db.getCurrentPoll>>
+
 export const db = {
   async getCurrentPoll() {
     const [option1, option2] = dbInternal
@@ -33,9 +35,11 @@ export const db = {
     }
   },
   async vote(optionId: OptionId) {
-    // FIXME See https://github.com/drizzle-team/drizzle-orm/issues/812
-    // const statement = sql`update ${options} set ${options.votes} = ${options.votes} + 1 where ${options.id} = ${optionId}`
-    const statement = sql`update ${options} set votes = votes + 1 where ${options.id} = ${optionId}`
+    const statement = sql`update ${options} set ${sql.identifier(
+      options.votes.name
+    )} = ${sql.identifier(options.votes.name)} + 1 where ${
+      options.id
+    } = ${optionId}`
 
     dbInternal.run(statement)
 
