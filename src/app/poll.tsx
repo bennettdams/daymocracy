@@ -1,8 +1,10 @@
-import { Title } from '@/components/Title'
-import { Option, fetchCurrentPoll } from '@/lib/api'
+import { db } from '@/db/db'
+import { Option } from '@/db/schema'
+import { OptionVariant } from '@/lib/types'
+import { PollOption } from './_components/PollOption'
 
 export async function Poll() {
-  const options = await fetchCurrentPoll()
+  const options = await db.getCurrentPoll()
   const option1 = options.option1
   const option2 = options.option2
   const votesOption1 = option1.votes
@@ -53,19 +55,19 @@ function PollOptions({
   return (
     <div className="flex w-full flex-col lg:flex-row">
       <PollOption
+        optionId={option1.id}
         variant="option1"
         title={option1.title}
         description={option1.description}
-        votes={option1.votes}
       />
 
       <p className="mx-10 grid place-items-center font-serif text-6xl">vs.</p>
 
       <PollOption
+        optionId={option2.id}
         variant="option2"
         title={option2.title}
         description={option2.description}
-        votes={option2.votes}
       />
     </div>
   )
@@ -76,7 +78,7 @@ function OptionVotes({
   variant,
 }: {
   votes: number
-  variant: OptionId
+  variant: OptionVariant
 }): JSX.Element {
   return (
     <div className="flex basis-52 flex-col">
