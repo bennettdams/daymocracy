@@ -1,4 +1,5 @@
 import { Title } from '@/components/Title'
+import { db } from '@/db/db'
 import { getStartOfTomorrowUTC } from '@/lib/server-utils'
 import Image from 'next/image'
 import { Suspense } from 'react'
@@ -6,8 +7,9 @@ import handImage from '../../public/assets/hand.png'
 import { Timer } from './_components/Timer'
 import { Poll } from './_components/poll'
 
-export default function Home(): JSX.Element {
+export default async function Home(): Promise<JSX.Element> {
   const startOfTomorrowUTC = getStartOfTomorrowUTC()
+  const currentPoll = await db.getCurrentPoll()
 
   return (
     // `relative` is need because `GoVote` is positioned absolute
@@ -26,7 +28,7 @@ export default function Home(): JSX.Element {
 
       <div className="mt-10 lg:mt-20">
         <Suspense fallback={<p>Loading poll...</p>}>
-          <Poll />
+          <Poll currentPoll={currentPoll} />
         </Suspense>
       </div>
 
