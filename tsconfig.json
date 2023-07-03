@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    // was es5, but Drizzle migrate needs ESNext
-    "target": "ESNext",
+    // was es5, but Drizzle migrate needs ES6
+    "target": "ES6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
