@@ -12,7 +12,7 @@ export default async function Home(): Promise<JSX.Element> {
   const currentPoll = await db.getCurrentPoll()
 
   return (
-    // `relative` is need because `GoVote` is positioned absolute
+    // `relative` is needed because `GoVote` is positioned absolute
     <main className="relative">
       <h1 className="text-center text-5xl font-bold">Daymocracy</h1>
 
