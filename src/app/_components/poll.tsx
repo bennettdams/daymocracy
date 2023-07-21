@@ -3,6 +3,7 @@
 import { Title } from '@/components/Title'
 import { CurrentPoll } from '@/db/db'
 import { OptionId } from '@/db/schema'
+import { useMouseDistance } from '@/lib/client-utils'
 import { OptionVariant } from '@/lib/types'
 import { experimental_useOptimistic as useOptimistic } from 'react'
 import { voteForOption } from '../actions'
@@ -141,6 +142,21 @@ function PollOption({
   onVote: () => void
   isSending: boolean
 }): JSX.Element {
+  const { distance, elementRef: voteCircleRef } =
+    useMouseDistance<HTMLButtonElement>()
+  const maxDistanceForOpacityInPx = 400
+  const maxDistanceForRotateInDegrees = 45
+  const opacity =
+    distance === null || distance > maxDistanceForOpacityInPx
+      ? 0
+      : Math.round((1 - distance / maxDistanceForOpacityInPx) * 100) / 100
+  const rotate =
+    distance === null || distance > maxDistanceForOpacityInPx
+      ? undefined
+      : `${-(
+          Math.round((1 - distance / maxDistanceForRotateInDegrees) * 100) / 100
+        )}deg`
+
   async function handleSubmit() {
     onVote()
     await voteForOption(optionId)
@@ -160,11 +176,22 @@ function PollOption({
         <div className="h-44 w-44 bg-blue-200">image</div>
       </div>
 
-      <form action={handleSubmit}>
-        <button type="submit">
-          {!isSending ? 'Vote!' : 'Going to ballot..'}
+      <form action={handleSubmit} className="grid h-28 place-items-center">
+        <button
+          ref={voteCircleRef}
+          type="submit"
+          className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-gray-500 bg-white"
+        >
+          <span
+            style={{ opacity, rotate }}
+            className="cursor-pointer text-9xl leading-none"
+          >
+            X
+          </span>
         </button>
       </form>
+
+      <p>{!isSending ? 'Vote now!' : 'Going to ballot..'}</p>
     </div>
   )
 }
