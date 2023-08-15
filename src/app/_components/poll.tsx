@@ -144,18 +144,22 @@ function PollOption({
 }): JSX.Element {
   const { distance, elementRef: voteCircleRef } =
     useMouseDistance<HTMLButtonElement>()
-  const maxDistanceForOpacityInPx = 400
-  const maxDistanceForRotateInDegrees = 45
+  const maxDistanceForOpacityInPx = 500
   const opacity =
     distance === null || distance > maxDistanceForOpacityInPx
       ? 0
       : Math.round((1 - distance / maxDistanceForOpacityInPx) * 100) / 100
-  const rotate =
+
+  const maxDistanceForRotateInDegrees = 30
+  const rotateRaw =
     distance === null || distance > maxDistanceForOpacityInPx
       ? undefined
-      : `${-(
-          Math.round((1 - distance / maxDistanceForRotateInDegrees) * 100) / 100
-        )}deg`
+      : Math.round((1 - distance / maxDistanceForRotateInDegrees) * 100) / 100
+  const rotateVariant = !rotateRaw
+    ? undefined
+    : variant === 'option1'
+    ? -rotateRaw
+    : rotateRaw
 
   async function handleSubmit() {
     onVote()
@@ -183,7 +187,10 @@ function PollOption({
           className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-gray-500 bg-white"
         >
           <span
-            style={{ opacity, rotate }}
+            style={{
+              opacity,
+              rotate: `${rotateVariant}deg`,
+            }}
             className="cursor-pointer text-9xl leading-none"
           >
             X
