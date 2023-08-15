@@ -36,7 +36,7 @@ export const db = {
   },
   async vote(optionId: OptionId) {
     const statement = sql`update ${options} set ${sql.identifier(
-      options.votes.name
+      options.votes.name,
     )} = ${sql.identifier(options.votes.name)} + 1 where ${
       options.id
     } = ${optionId}`

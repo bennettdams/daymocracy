@@ -68,7 +68,7 @@ export function useMouseDistance<TElementType extends HTMLElement>() {
   const { elementPosition, elementRef } = useElementPostition<TElementType>()
 
   const [distance, setDistance] = useState<{ x: number; y: number } | null>(
-    null
+    null,
   )
 
   function calculateDistanceFromMouseToCenter() {
